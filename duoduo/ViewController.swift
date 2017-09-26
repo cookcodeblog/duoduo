@@ -36,7 +36,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 60) // TODO height
+        return CGSize(width: view.frame.width, height: 300) // TODO height
     }
 
 
@@ -85,7 +85,7 @@ class FeedCell: UICollectionViewCell {
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "kid_program")
+        imageView.image = UIImage(named: "code_profile")
         imageView.contentMode = .scaleAspectFit
         
         // Tips: Use background color to demo lay out
@@ -94,17 +94,38 @@ class FeedCell: UICollectionViewCell {
         return imageView
     }()
     
+    
+    let statusTextView: UITextView = {
+        let textView = UITextView()
+        textView.text = "小朋友第一次参加编程比赛都非常兴奋！"
+        textView.font = UIFont.systemFont(ofSize: 14)
+        return textView
+    }()
+    
+    let statusImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "kid_program_pic02")
+        imageView.contentMode = .scaleAspectFill
+        //imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    
     func setupViews() {
         backgroundColor = UIColor.white
         
         addSubview(nameLabel)
         addSubview(profileImageView)
+        addSubview(statusTextView)
+        addSubview(statusImageView)
         
         // Constraints of Auto lay out
-        
+        // TODO fine tune auto lay out constraints
         addConstraintsWithFormat(format: "H:|-8-[v0(44)]-8-[v1]|", views: profileImageView, nameLabel)
-        addConstraintsWithFormat(format: "V:|[v0]|", views: nameLabel)
-        addConstraintsWithFormat(format: "V:|-8-[v0(44)]|", views: profileImageView)
+        addConstraintsWithFormat(format: "H:|-4-[v0]-4-|", views: statusTextView)
+        addConstraintsWithFormat(format: "H:|[v0(200)]", views: statusImageView)
+        addConstraintsWithFormat(format: "V:|-12-[v0]", views: nameLabel)
+        addConstraintsWithFormat(format: "V:|-8-[v0(44)]-4-[v1(30)]-4-[v2(200)]|", views: profileImageView, statusTextView, statusImageView)
         
     }
 }
