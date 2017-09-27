@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  duoduo
 //
-//  Created by linsirui on 2017/9/25.
+//  Created by William on 2017/9/25.
 //  Copyright © 2017年 duoduo. All rights reserved.
 //
 
