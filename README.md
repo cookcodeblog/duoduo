@@ -1,1 +1,1 @@
-# duoduo
+# duoduo-app (iOS App)
