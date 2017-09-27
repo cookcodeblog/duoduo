@@ -109,7 +109,7 @@ class FeedCell: UICollectionViewCell {
     
     let statusImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "kid_program_pic02")
+        imageView.image = UIImage(named: "kid_program_pic04")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         return imageView
