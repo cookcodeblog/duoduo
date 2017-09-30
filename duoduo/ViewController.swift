@@ -8,14 +8,53 @@
 
 import UIKit
 
+// Application Properties
+let NAVIGATION_ITEM_TITLE = "朵朵";
+let CELL_ID = "feed_cellId"
+
+class Post {
+    var name: String?
+    var statusText: String?
+    var profileImageName: String?
+    var statusImageName: String?
+    var numLikes: Int?
+    var numComments: Int?
+    var location: String?
+    var issueDateTimeText: String?
+}
+
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    // Application Properties
-    let NAVIGATION_ITEM_TITLE = "朵朵";
-    let CELL_ID = "cellId"
-
+    var posts = [Post]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // posts
+        let postKidCoding = Post()
+        postKidCoding.name = "编程兔"
+        postKidCoding.location = "广州天河"
+        postKidCoding.issueDateTimeText = "16分钟前"
+        postKidCoding.statusText = "小朋友们第一次参加编程比赛都很兴奋。"
+        postKidCoding.profileImageName = "code_profile"
+        postKidCoding.statusImageName = "kid_program_pic04"
+        postKidCoding.numLikes = 146
+        postKidCoding.numComments = 24
+        
+        let postKidDancing = Post()
+        postKidDancing.name = "唐韵少儿中国舞"
+        postKidDancing.location = "广州番禺"
+        postKidDancing.issueDateTimeText = "18分钟前"
+        postKidDancing.statusText = "热烈祝贺第26次中国舞考级考试圆满落幕。\n中国舞班的全体学员全部顺利通过考级。\n再次对全体学员表示祝贺！"
+        postKidDancing.profileImageName = "dance_profile"
+        postKidDancing.statusImageName = "kid_dancing_pic01"
+        postKidDancing.numLikes = 258
+        postKidDancing.numComments = 56
+        
+        posts.append(postKidCoding)
+        posts.append(postKidDancing)
+        
+        
         
         navigationItem.title = NAVIGATION_ITEM_TITLE
         
@@ -28,15 +67,29 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        // section count
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath)
+        let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_ID, for: indexPath) as! FeedCell
+        feedCell.post = posts[indexPath.item]
+        return feedCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 400) // TODO height
+        
+        // calculate text height dynamically
+        if let statusText = posts[indexPath.item].statusText {
+            let rect = NSString(string: statusText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
+            
+            // align with auto lay out vectical constraints
+            let knownHeight: CGFloat = 8 + 44 + 4 + 4 + 200 + 8 + 24 + 8 + 44
+            let textSpacing: CGFloat = 24
+            
+            return CGSize(width: view.frame.width, height: rect.height + knownHeight + textSpacing)
+        }
+        return CGSize(width: view.frame.width, height: 500) // TODO height
     }
     
     // rotate handling
@@ -48,6 +101,57 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
 }
 
 class FeedCell: UICollectionViewCell {
+    
+    var post: Post? {
+        didSet {
+            
+            if let name = post?.name,
+                let location = post?.location, let issueDateTimeText = post?.issueDateTimeText {
+                let attributedText = NSMutableAttributedString(string: name, attributes:
+                    [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
+                
+                attributedText.append(NSAttributedString(string: "\n\(location) \(issueDateTimeText)", attributes:
+                    [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 10),
+                     NSForegroundColorAttributeName: UIColor.rgb(red: 155, green: 161, blue: 171)]))
+                
+                // line spacing
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineSpacing = 8
+                
+                
+                attributedText.addAttributes([NSParagraphStyleAttributeName: paragraphStyle],
+                                             range: NSMakeRange(0, attributedText.string.characters.count))
+                
+                // what is it ? keep it atm, attachments ?
+                //        let attachment = NSTextAttachment()
+                //        attachment.image = UIImage(named: "global_small")
+                //        attachment.bounds = CGRect(x: 0, y: -2, width: 12, height: 12)
+                //        attributedText.append(NSAttributedString(attachment: attachment))
+                
+                
+                nameLabel.attributedText = attributedText
+            }
+            
+            if let statusText = post?.statusText {
+                statusTextView.text = statusText
+            }
+            
+            if let profileImageName = post?.profileImageName {
+                profileImageView.image = UIImage(named: profileImageName)
+            }
+            
+            if let statusImageName = post?.statusImageName {
+                statusImageView.image = UIImage(named: statusImageName)
+            }
+            
+            if let numLikes = post?.numLikes , let numComments = post?.numComments {
+                likesCommentsLabel.text = "\(numLikes) 点赞  \(numComments) 评论"
+            }
+            
+            
+
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -63,34 +167,11 @@ class FeedCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 2
         
-        let attributedText = NSMutableAttributedString(string: "少儿编程大赛10月9日在广州举行", attributes:
-            [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "\n编程兔 126评论 16分钟前", attributes:
-            [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 10),
-             NSForegroundColorAttributeName: UIColor.rgb(red: 155, green: 161, blue: 171)]))
-        
-        // line spacing
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
-        
-        
-        attributedText.addAttributes([NSParagraphStyleAttributeName: paragraphStyle],
-                                     range: NSMakeRange(0, attributedText.string.characters.count))
-        
-        // what is it ? keep it atm, attachments ?
-//        let attachment = NSTextAttachment()
-//        attachment.image = UIImage(named: "global_small")
-//        attachment.bounds = CGRect(x: 0, y: -2, width: 12, height: 12)
-//        attributedText.append(NSAttributedString(attachment: attachment))
-        
-        
-        label.attributedText = attributedText
         return label
     }()
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "code_profile")
         imageView.contentMode = .scaleAspectFit
         
         // Tips: Use background color to demo lay out
@@ -102,14 +183,13 @@ class FeedCell: UICollectionViewCell {
     
     let statusTextView: UITextView = {
         let textView = UITextView()
-        textView.text = "小朋友第一次参加编程比赛都非常兴奋！"
         textView.font = UIFont.systemFont(ofSize: 14)
+        textView.isScrollEnabled = false
         return textView
     }()
     
     let statusImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "kid_program_pic04")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         return imageView
@@ -160,6 +240,7 @@ class FeedCell: UICollectionViewCell {
         addSubview(commentButton)
         addSubview(shareButton)
         
+        
         // Constraints of Auto lay out
         // TODO fine tune auto lay out constraints
         
@@ -179,7 +260,7 @@ class FeedCell: UICollectionViewCell {
         addConstraintsWithFormat(format: "H:|[v0(v2)][v1(v2)][v2]|", views: likeButton, commentButton, shareButton)
         
         
-        addConstraintsWithFormat(format: "V:|-8-[v0(44)]-4-[v1(30)]-4-[v2]-8-[v3(24)]-8-[v4(0.4)][v5(44)]|", views: profileImageView, statusTextView, statusImageView, likesCommentsLabel, deviderViewLine, likeButton)
+        addConstraintsWithFormat(format: "V:|-8-[v0(44)]-4-[v1]-4-[v2(200)]-8-[v3(24)]-8-[v4(0.4)][v5(44)]|", views: profileImageView, statusTextView, statusImageView, likesCommentsLabel, deviderViewLine, likeButton)
         
         // cosntraints with bottom
         addConstraintsWithFormat(format: "V:[v0(44)]|", views: commentButton)
