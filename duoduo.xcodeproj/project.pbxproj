@@ -7,12 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D06DD05F1F82797800A47742 /* Posts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06DD05E1F82797800A47742 /* Posts.swift */; };
+		D06DD0611F82799300A47742 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06DD0601F82799300A47742 /* FeedCell.swift */; };
+		D06DD0631F82799E00A47742 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06DD0621F82799E00A47742 /* Extensions.swift */; };
 		D0D1D8EA1F794681009717FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1D8E91F794681009717FC /* AppDelegate.swift */; };
 		D0D1D8EC1F794681009717FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1D8EB1F794681009717FC /* ViewController.swift */; };
 		D0D1D8F11F794681009717FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0D1D8F01F794681009717FC /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D06DD05E1F82797800A47742 /* Posts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Posts.swift; sourceTree = "<group>"; };
+		D06DD0601F82799300A47742 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		D06DD0621F82799E00A47742 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D0D1D8E61F794681009717FC /* duoduo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = duoduo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0D1D8E91F794681009717FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0D1D8EB1F794681009717FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +60,9 @@
 				D0D1D8EB1F794681009717FC /* ViewController.swift */,
 				D0D1D8F01F794681009717FC /* Assets.xcassets */,
 				D0D1D8F51F794681009717FC /* Info.plist */,
+				D06DD05E1F82797800A47742 /* Posts.swift */,
+				D06DD0601F82799300A47742 /* FeedCell.swift */,
+				D06DD0621F82799E00A47742 /* Extensions.swift */,
 			);
 			path = duoduo;
 			sourceTree = "<group>";
@@ -129,7 +138,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06DD0631F82799E00A47742 /* Extensions.swift in Sources */,
 				D0D1D8EC1F794681009717FC /* ViewController.swift in Sources */,
+				D06DD0611F82799300A47742 /* FeedCell.swift in Sources */,
+				D06DD05F1F82797800A47742 /* Posts.swift in Sources */,
 				D0D1D8EA1F794681009717FC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +289,7 @@
 				D0D1D8FA1F794681009717FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
