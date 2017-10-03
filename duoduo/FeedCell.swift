@@ -29,13 +29,9 @@ class FeedCell: UICollectionViewCell {
                     
                     let image = UIImage(data: data!)
                     
-                    
                     DispatchQueue.main.async(execute: {() -> Void in
                         self.statusImageView.image = image
-                        //self.loader.stopAnimating()
-                        
                     })
-                    
                 }).resume()
             }
         }
@@ -123,6 +119,7 @@ class FeedCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -197,4 +194,6 @@ class FeedCell: UICollectionViewCell {
         addConstraintsWithFormat(format: "V:[v0(44)]|", views: shareButton)
         
     }
+    
+    
 }
